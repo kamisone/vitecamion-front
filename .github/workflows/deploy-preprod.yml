@@ -19,6 +19,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          API_BASE_URL_BROWSER: ${{ secrets.API_BASE_URL_BROWSER }}
         
       - name: Log in to DockerHub
         uses: docker/login-action@v3
