@@ -1,6 +1,5 @@
 import { Calendar } from "@/components/calendar/Calendar";
 import { BookingService } from "@/services/server/booking.service";
-import { headers } from "next/headers";
 
 const bookingService = BookingService.instance;
 
@@ -22,9 +21,17 @@ export default async function Home() {
 
   const response = await bookingService.list();
 
-  const ehaders = headers()
   if (!response.success) {
-    return <p>La réservation est actuellement indisponible {response.message + ' - ' + process.env.API_BASE_URL_SERVER + ' - ' + process.env.API_BASE_URL_BROWSER}</p>;
+    return (
+      <p>
+        La réservation est actuellement indisponible{" "}
+        {response.message +
+          " - " +
+          process.env.API_BASE_URL_SERVER +
+          " - " +
+          process.env.API_BASE_URL_BROWSER}
+      </p>
+    );
   }
   return (
     <main className="text-center h-full grid grid-rows-[auto_1fr] py-4 px-4">

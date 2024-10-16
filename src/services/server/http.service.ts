@@ -29,9 +29,7 @@ export class HttpService {
       path = this._addQueryParams(path, queryParams);
     }
     return customFetch<T>(
-      "http://back-cluster-ip-service:3000" +
-        "/" +
-        path,
+      `${process.env.API_BASE_URL_SERVER}/${path}`,
       httpMethods.GET
     );
   }

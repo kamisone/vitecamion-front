@@ -1,9 +1,8 @@
 name: CI - front [PREPROD]
 
-on: 
+on:
   push:
     branches: [dev]
-
 
 jobs:
   build:
@@ -13,22 +12,21 @@ jobs:
       - name: Download project from Git
         uses: actions/checkout@v2
 
-
       - name: Install NPM dependencies
         run: npm i
 
       - name: Build project
         run: npm run build
         env:
-          API_BASE_URL_BROWSER: ${{ secrets.API_BASE_URL_BROWSER }}
-        
+          API_BASE_URL_BROWSER: ${{ secrets.API_BASE_URL_BROWSER_BUILD }}
+          API_BASE_URL_SERVER: ${{ secrets.API_BASE_URL_SERVER_BUILD }}
+
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      
       - name: Build docker image
         run: docker build -t mo29172/vitecamion_front:v${{ github.run_number }} -f ./docker/Dockerfile ./
 
@@ -40,14 +38,14 @@ jobs:
         run: |
           sed -i -e"s/:latest/:v${{ github.run_number }}/" docker/k8s/front-deployment.yaml
 
-      - name: Copy k8s files to server via SSH 
+      - name: Copy k8s files to server via SSH
         uses: appleboy/scp-action@master
-        with: 
+        with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
-          source: 'docker/k8s/front-deployment.yaml,docker/k8s/front-cluster-ip-service.yaml,docker/k8s/front-ingress-service.yaml,docker/k8s/front-hpa.yaml'
-          target: '/srv/k8s/front'
+          source: "docker/k8s/front-deployment.yaml,docker/k8s/front-cluster-ip-service.yaml,docker/k8s/front-ingress-service.yaml,docker/k8s/front-hpa.yaml"
+          target: "/srv/k8s/front"
           strip_components: 2
 
       - name: Apply k8s files
@@ -63,5 +61,4 @@ jobs:
             --from-literal API_BASE_URL_SERVER=${{ secrets.API_BASE_URL_SERVER }}
             kubectl apply -f /srv/k8s/front
             echo y | docker exec -i minikube docker image prune -a
-            echo y | docker exec -i minikube docker volume prune -a 
-      
+            echo y | docker exec -i minikube docker volume prune -a
