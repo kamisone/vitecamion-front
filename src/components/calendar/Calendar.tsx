@@ -67,7 +67,9 @@ export function Calendar({ year, month, bookings }: CalendarProps) {
       <tbody>
         <tr>
           {days.map((day) => (
-            <th key={day}>{day}</th>
+            <th key={day} className="text-[#455a64] text-sm sm:text-lg">
+              {day}
+            </th>
           ))}
         </tr>
 
@@ -76,10 +78,10 @@ export function Calendar({ year, month, bookings }: CalendarProps) {
             {row.map((day) => (
               <td
                 key={day.id}
-                className={clsx({
-                  "border border-solid": day.isToday,
-                  "text-gray-400": !day.isActive,
-                  "bg-gray-500": !day.spotAvailable && day.isActive,
+                className={clsx("rounded-md w-[14.28%] h-[14.28%]", {
+                  "border border-solid border-blue-300": day.isToday,
+                  "text-gray-400 cursor-not-allowed": !day.isActive,
+                  "bg-gray-500 cursor-not-allowed": !day.spotAvailable && day.isActive,
                 })}
               >
                 {day.value}
