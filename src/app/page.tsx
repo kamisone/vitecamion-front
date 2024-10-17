@@ -25,8 +25,8 @@ export default async function Home() {
     return <p>La réservation est actuellement indisponible </p>;
   }
   return (
-    <main className="text-center h-full grid grid-rows-[auto_1fr] py-4 px-4">
-      <section>
+    <main className=" grid grid-rows-[auto_1fr] py-4 px-4">
+      <section className="text-center">
         <h1 className="text-lg sm:text-2xl">
           <span className="text-[#0d47a1]">ViteCamion</span> arrive bientôt{" "}
           <span className="text-[#0d47a1]">!</span>
@@ -39,7 +39,7 @@ export default async function Home() {
           vie !
         </p>
       </section>
-      <section className="grid grid-rows-[auto_1fr] justify-items-center items-center mt-4">
+      <section className="grid grid-rows-[auto_1fr] justify-items-center items-center mt-4 text-center">
         <div className="border border-solid border-[#0d47a150] self-start  rounded-md aspect-square w-full max-w-[500px]   min-w-max p-2 shadow-lg">
           <p className="text-lg font-semibold text-[#0d47a1]">
             <span>{monthsNames[new Date().getMonth()]}</span>{" "}
