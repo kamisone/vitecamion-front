@@ -1,5 +1,6 @@
 import { Calendar } from "@/components/calendar/Calendar";
 import { BookingService } from "@/services/server/booking.service";
+export const revalidate = 300; // revalidate at most every 5 minutes
 
 const bookingService = BookingService.instance;
 
